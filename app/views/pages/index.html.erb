@@ -1,0 +1,81 @@
+<h1>Pages#index</h1>
+<p>Find me in app/views/pages/index.html.erb</p>
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 50%;
+        width: 50%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var map;
+      function initMap() {
+        var uluru = {lat: -25.363, lng: 131.044};
+        var places = [
+          {title: "uluru",
+           latitude: -25.363,
+           longitude: 131.044,
+           description: "uluru description"
+          },
+          {title: "some other place",
+           latitude: 40,
+           longitude: 70,
+           description: "other place description"
+          },
+          {title: "in the ocean",
+           latitude: 0,
+           longitude: 0,
+           description: "ocean description"
+          }
+        ]
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: uluru,
+          zoom: 3
+        });
+
+        for(var i = 0; i < places.length; i++){
+          createMarker(places[i]);
+        }
+
+        function createMarker(location){
+          var infowindow = new google.maps.InfoWindow({
+            content: location.description
+          });
+
+          var marker = new google.maps.Marker({
+            position: {lat: location.latitude, lng: location.longitude},
+            map: map,
+            title: location.title
+          });
+
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
+
+
+        }
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuPXa-_2DCWF9sRyrhBrPp8Qcx_F14yTE&callback&callback=initMap"
+    async defer></script>
+  </body>
+</html>
